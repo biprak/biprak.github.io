@@ -1,0 +1,20 @@
+body {
+
+}
+
+#fu {
+  margin-bottom: 5%;
+}
+
+#top2017 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1em;
+  margin: auto auto;
+  text-align: center;
+}
+
+.album {
+  font-weight: bold;
+  font-size: 1.3em;
+  margin-right: .1%
+}
