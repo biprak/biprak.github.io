@@ -19,6 +19,14 @@ body {
   margin: auto auto;
 }
 
+.top10_title {
+  font-style: italic;
+}
+
+#honor_entries {
+  font-size: .55em;
+}
+
 .album {
   font-weight: bold;
   font-size: 1.3em;
