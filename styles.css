@@ -37,3 +37,7 @@ body {
   font-size: 1.3em;
   margin-right: .1%
 }
+
+.arb_message {
+  text-align: justify;
+}
