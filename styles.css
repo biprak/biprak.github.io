@@ -25,7 +25,11 @@ body {
 }
 
 #honor_entries {
-  font-size: .55em;
+  font-size: .75em;
+}
+
+#songs_entries {
+  font-size: .8em;
 }
 
 .album {
