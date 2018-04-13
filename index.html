@@ -1,121 +1,213 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600i,800" rel="stylesheet">    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <title>BIPRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</title>
-  </head>
-  <body>
-    <div id="fu"> STILL UNDER CONSTRUCTION. TESTING LAYOUT FOR NOW.  </div>
+<head>
+	<title>INFO 3300 Project 2</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-    <div id="top2017" class="row">
-    <div id="honorables2017" class="col-sm-4">
-      <p class="top10_title"> Liked These  </p>
-      <div id="honor_entries">
-      <p class="album_entry">
-        <span class="album"> HNDRXX </span> Future
-      </p>
-      <p class="album_entry">
-        <span class="album"> Funk Wav Bounces Vol. 1 </span> Calvin Harris
-      </p>
-      <p class="album_entry">
-        <span class="album"> Gone Now </span> Bleachers
-      </p>
-      <p class="album_entry">
-        <span class="album"> HEAVN </span> Jamila Woods
-      </p>
-      <p class="album_entry">
-        <span class="album"> The Autobiography </span> Vic Mensa
-      </p>
-      <p class="album_entry">
-        <span class="album"> Coco Soundtrack </span>
-      </p>
-      <p class="album_entry">
-        <span class="album"> Mr. Davis </span> Gucci Mane
-      </p>
-      <p class="album_entry">
-        <span class="album"> Melodrama </span> Lorde
-      </p>
-      <p class="album_entry">
-        <span class="album"> Process </span> Sampha
-      </p>
-      <p class="album_entry">
-        <span class="album"> Laila's Wisdom </span> Rapsody
-      </p>
-      <p class="album_entry">
-        <span class="album"> Playboi Carti </span> Playboi Carti
-      </p>
-      <p class="album_entry">
-        <span class="album"> Still Striving </span> A$AP Ferg
-      </p>
-      <p class="album_entry">
-        <span class="album"> Ctrl </span> SZA
-      </p>
-      <p class="album_entry">
-        <span class="album"> Pretty Girls Like Trap Music </span> 2 Chainz
-      </p>
-      <p class="album_entry">
-        <span class="album"> Syre </span> Jaden Smith
-      </p>
-    </div>
-    </div>
+	<style>
+	body{
+		background-color: #212020;
+		font-family: 'Montserrat', sans-serif;
+		color: white;
+	}
+	svg {
+		border: solid white 1px;
+	}
 
-    <div id="top2017_albums" class="col-sm-4">
-      <p class="top10_title"> Loved These  </p>
-      <p class="album_entry">
-        1. <span class="album"> DAMN. </span> Kendrick Lamar
-      </p>
-      <p class="album_entry">
-        2. <span class="album"> Flower Boy </span> Tyler, The Creator
-      </p>
-      <p class="album_entry">
-        3. <span class="album"> Big Fish Theory </span> Vince Staples
-      </p>
-      <p class="album_entry">
-        4. <span class="album"> More Life </span> Drake
-      </p>
-      <p class="album_entry">
-        5. <span class="album"> 4:44 </span> JAY-Z
-      </p>
-      <p class="album_entry">
-        6. <span class="album"> blkswn </span> Smino
-      </p>
-      <p class="album_entry">
-        7. <span class="album"> SATURATION </span> BROCKHAMPTON
-      </p>
-      <p class="album_entry">
-        8. <span class="album"> ALL-AMERIKKKAN BADA$$ </span> Joey Bada$$
-      </p>
-      <p class="album_entry">
-        9. <span class="album"> Culture </span> Migos
-      </p>
-      <p class="album_entry">
-        10. <span class="album"> BEAUTIFUL THUGGER GIRLS </span> Young Thug
-      </p>
-    </div>
+	text{
+		font-family: 'Montserrat', sans-serif;
+		fill: white;
+		font-size: 15px;
+	}
+	path.country { fill: #fff; stroke: #888; }
+	#map {
+		display: block;
+		margin:auto;
+		background-color: rgba(24, 130, 144, 1);
+	}
+	h3{font-size:15.5pt;}
 
-    <div id="songs2017" class="col-sm-4">
-      <p class="top10_title"> Favorite Songs  </p>
-      <div id="songs_entries">
-      <p class="album_entry">
-        <span class="album"> Balance </span> Earl Sweatshirt
-      </p>
-      <p class="album_entry">
-        <span class="album"> Biking (feat. JAY Z & Tyler, The Creator) </span> Frank Ocean
-      </p>
-      <p class="album_entry">
-        <span class="album"> 911 / Mr. Lonely (feat. Frank Ocean) </span> Tyler, The Creator
-      </p>
-      <p class="album_entry">
-        <span class="album"> GOD. </span> Kendrick Lamar
-      </p>
-      <p class="album_entry">
-        <span class="album"> There You Go  </span> Saba
-      </p>
-    </div>
-  </div>
-  </div>
+	div.tooltip {
+		position: absolute;
+		text-align: center;
+		width: 250px;
+		height: 40px;
+		padding: 2px;
+		font: 12px 'Montserrat', sans-serif;
+		background: lightsteelblue;
+		border: 0px;
+		border-radius: 8px;
+		pointer-events: none;
+	}
 
-  </body>
-</html>
+</style>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://d3js.org/topojson.v2.min.js"></script>
+<script src="https://d3js.org/d3-geo.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+</head>
+
+<body>
+	<div style="float: left; display:block; width:100%;">
+		<div style="font-size:2em; line-height: 45px; margin: 2em;width:25%; display:inline-block; padding-bottom:5em; ">
+			<h1 style="font-weight: 100;">Disappearing</h1>
+			<h1 style="font-weight: 100;">Languages</h1>
+		</div>
+		<!-- <div style="border: 2px solid yellow; height:10em; width:30em; z-index:-1; position: absolute; margin: -15em;"></div> -->
+
+		<div style="float: right; display:inline-block; width:45%;margin:6em 6em;line-height: 20px;">
+			<h3>What makes a language a "Dead Language"?</h3>
+			<p>If no one can speak the language at all, it becomes an extinct language. We may
+				study "dead languages" through recordings or writing, but it remains "dead" or extinct
+				unless there are fluent speakers of the language.</p>
+			</div>
+		</div>
+
+		<div id="visualization1" style="display:block; margin:5em; line-height:1.8;">
+			<h1>Extinct & Endangered Languages Mapped</h1>
+			<h3>UNESCO'S Five Levels of Language Risk:</h3>
+			<p style="font-size:14px;">
+				<span style="color:green; ">1. Safe:</span> Widely spoken
+				<br/><span style="color:#FFFF00; ">2. Vulnerable:</span> Not spoken by children outside the home (600 languages)
+				<br/><span style="color:#FFCC00; ">3. Definitely endangered:</span>  Children not speaking (646 languages)
+				<br/><span style="color:#FF9900; ">4. Severely endangered:</span>  Only spoken by oldest generations (527 languages)
+				<br/><span style="color:#FF6600; ">5. Critically endangered:</span>  Spoken by only a few members of the oldest
+				<br/><span style="color:#FF0000; ">6. Extinct:</span>  No longer spoken
+
+			</p>
+			<svg id="map" height="600" width="1100"></svg><br><font size = "2" color="white" face="Montserrat">
+
+
+
+				<script>
+				var svgWorldMap = d3.select("#map");
+				var worldProjection = d3.geoNaturalEarth().center([0,15]);;
+				var pathGenerator = d3.geoPath().projection(worldProjection);
+				var mapData;
+				var countries;
+				var languageData;
+				var interestingPoints;
+
+				var g = svgWorldMap.append("g");
+
+				//applied to all rows, select 5 columns, change names, and convert strings to numbers.
+				var parseRow = function(line) {
+
+					return{
+						Language: line["Name in English"], //name of the language
+						Latitude: Number(line["Latitude"]),
+						Longitude: Number(line["Longitude"]),
+						SpeakersNo: Number(line["Number of speakers"]),
+						Degree: line["Degree of endangerment"],
+						Country: line["Countries"],
+					}
+				};
+
+				//read csv files and call showmap functions
+				d3.queue()
+				.defer(d3.json, "world-50m.json")
+				.defer(d3.csv, "data.csv", parseRow)
+				.await(function(error, worldMapData, rawLanguage, USMapData){
+					mapData = worldMapData;
+					countries = topojson.feature(mapData, mapData.objects.countries);
+					languageData=rawLanguage;
+					interestingPoints = dataPoints(languageData);
+					showMap(interestingPoints);
+				});
+
+				var colors=["#FF0000", "#FF6600", "#FF9900", "#FFCC00",  "#FFFF00"];
+
+
+				//create new set of coordinates for language locations + colors + name of Language
+				var dataPoints = function(data){
+					var result = [];
+					data.forEach(function(d){
+						switch(d.Degree){
+							case "Extinct":
+							result.push([d.Longitude, d.Latitude, colors[0], d.Language, d.SpeakersNo]);
+							break;
+							case "Critically endangered":
+							result.push([d.Longitude, d.Latitude, colors[1], d.Language, d.SpeakersNo]);
+							break;
+							case "Severely endangered":
+							result.push([d.Longitude, d.Latitude, colors[2], d.Language, d.SpeakersNo]);
+							break;
+							case "Definitely endangered":
+							result.push([d.Longitude, d.Latitude, colors[3], d.Language, d.SpeakersNo]);
+							break;
+							case "Vulnerable":
+							result.push([d.Longitude, d.Latitude, colors[4], d.Language, d.SpeakersNo]);
+							break;
+						}
+					});
+
+					return result;
+				}
+
+				//show World map of endangered or extinct languages
+				function showMap(interestingPoints) {
+
+					//Map Projection
+					// worldProjection.fitExtent([[0,0], [svgWorldMap.attr("width"), svgWorldMap.attr("height")]], countries);
+					//
+					// var paths=svgWorldMap.selectAll("path.country").data(countries.features);
+					// paths.enter().append("path").attr("class","country")
+					// .attr("d", function(country){
+					// 	return pathGenerator(country);
+					// });
+
+					g.append("g")
+					.selectAll("path.country").data(countries.features)
+					.enter().append("path")
+					.attr("class","country")
+					.attr("d", pathGenerator)
+
+					// Define the div for the tooltip
+					var div = d3.select("body").append("div")
+					.attr("class", "tooltip")
+					.style("opacity", 0);
+
+					interestingPoints.forEach(function (points) {
+
+						//draw data points on map
+						svgWorldMap.append("circle")
+						.attr("cx", worldProjection(points)[0])
+						.attr("cy", worldProjection(points)[1])
+						.attr("r", 3)
+						.style("opacity", 0.8)
+						.style("fill", points[2])
+						.on("mouseover", function(d) {
+							div.transition()
+							.duration(200)
+							.style("opacity", .9);
+							div.html( points[3]+ "<br/>"  + "Number of Speakers: " + points[4])
+							.style("left", (d3.event.pageX) + "px")
+							.style("top", (d3.event.pageY - 28) + "px");
+						})
+						.on("mouseout", function(d) {
+							div.transition()
+							.duration(500)
+							.style("opacity", 0);
+						});
+					});
+				}
+
+				var zoom = d3.behavior.zoom()
+				.scaleExtent([1,10])
+				.on("zoom", function () {
+					g.attr("transform", "translate(" + d3.event.translate.join(",") + ") scale(" + d3.event.scale + ")");
+					g.selectAll("path")
+					.attr("d", pathGenerator.projection(worldProjection));
+
+					svgWorldMap.selectAll("circle")
+					.attr("transform", "translate(" + d3.event.translate.join(",") + ") scale(" + d3.event.scale + ")")
+					.transition()
+					.attr("r", 3 / d3.event.scale);
+				});
+				svgWorldMap.call(zoom);
+				</script>
+
+			</div>
+		</body>
+
+		</html>
