@@ -62,15 +62,17 @@
 <script src="https://d3js.org/d3-geo.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
 <script
-src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  crossorigin="anonymous"></script>
 </head>
 
 <body>
 	<div style="float: left; display:block; width:100%;">
 		<div style="font-size:2em; line-height: 45px; margin: 2em;width:25%; display:inline-block; padding-bottom:5em; ">
-			<h1 style="font-weight: 100;">Disappearing</h1>
+			<h1 style="font-weight: 100;">Globalization</h1>
+			<h1 style="font-weight: 100;">and</h1>
+			<h1 style="font-weight: 100;">Dying</h1>
 			<h1 style="font-weight: 100;">Languages</h1>
 		</div>
 		<!-- <div style="border: 2px solid yellow; height:10em; width:30em; z-index:-1; position: absolute; margin: -15em;"></div> -->
@@ -80,6 +82,9 @@ crossorigin="anonymous"></script>
 			<p>If no one can speak the language at all, it becomes an extinct language. We may
 				study "dead languages" through recordings or writing, but it remains "dead" or extinct
 				unless there are fluent speakers of the language.</p>
+				<p>It is estimated that a language dies every 14 days. We observe currently endangered
+				languages and the global trend of people replacing these languages with languages
+			 	from a small set of globally recognized "official" languages.</p>
 			</div>
 		</div>
 
@@ -109,286 +114,128 @@ crossorigin="anonymous"></script>
 			</ul>
 			</div>
 
-		<svg id="map" height="600" width="1100"></svg><br><font size = "2" color="white" face="Montserrat">
-			<script>
-			var svgMap = d3.select("#map");
-			var worldProjection = d3.geoNaturalEarth().center([0,15]);;
-			var pathGenerator = d3.geoPath().projection(worldProjection);
-			var mapData;
-			var countries;
-			var languageData;
-			var languagePoints;
-			var blue=[356,586,516,894,72,716,710,834,566,384];  //engish second lang
-			var red=[398,643,112,417,762]; //russian
-			var yellow=[156]; //mandarin
-			var darkblue=[840,826,36,124];  //english
-			var purple=[466,562,384,854,180,140,270,324,686,266,120,178,250]; //french
-			var green=[682,887,512,275,12,818,434,788,504,760,422,400,706]; //arabic
-			var pink=[862,170,218,604,68,152,32,600,724,484,320,222,192,332,388]; //spanish
+
+			<svg id="map" height="600" width="1100"></svg><br><font size = "2" color="white" face="Montserrat">
 
 
-			var g = svgMap.append("g");
 
-			//applied to all rows, select 5 columns, change names, and convert strings to numbers.
-			var parseRow = function(line) {
+				<script>
+				var svgMap = d3.select("#map");
+				var worldProjection = d3.geoNaturalEarth().center([0,15]);;
+				var pathGenerator = d3.geoPath().projection(worldProjection);
+				var mapData;
+				var countries;
+				var languageData;
+				var languagePoints;
+				var blue=[356,586,516,894,72,716,710,834,566,384];  //engish second lang
+				var red=[398,643,112,417,762]; //russian
+				var yellow=[156]; //mandarin
+				var darkblue=[840,826,36,124];  //english
+				var purple=[466,562,384,854,180,140,270,324,686,266,120,178,250]; //french
+				var green=[682,887,512,275,12,818,434,788,504,760,422,400,706]; //arabic
+				var pink=[862,170,218,604,68,152,32,600,724,484,320,222,192,332,388]; //spanish
 
-				return{
-					Language: line["Name in English"], //name of the language
-					Latitude: Number(line["Latitude"]),
-					Longitude: Number(line["Longitude"]),
-					SpeakersNo: Number(line["Number of speakers"]),
-					Degree: line["Degree of endangerment"],
-					Country: line["Countries"],
-				}
-			};
 
-			d3.queue()
-			.defer(d3.json, "world-50m.json")
-			.defer(d3.csv, "data.csv", parseRow)
-			.await(function(error, worldMapData, rawLanguage, USMapData){
-				mapData = worldMapData;
-				countries = topojson.feature(mapData, mapData.objects.countries);
-				languageData=rawLanguage;
-				languagePoints = dataPoints(languageData);
-				showMap(languagePoints,countries);
-			});
+				var g = svgMap.append("g");
 
-			var colors=["#FF0000", "#FF6600", "#FF9900", "#FFCC00",  "#FFFF00"];
+				//applied to all rows, select 5 columns, change names, and convert strings to numbers.
+				var parseRow = function(line) {
 
-			var dataPoints = function(data){
-				var result = [];
-				data.forEach(function(d){
-					switch(d.Degree){
-						case "Extinct":
-						result.push([d.Longitude, d.Latitude, colors[0], d.Language, d.SpeakersNo, "Extinct"]);
-						break;
-						case "Critically endangered":
-						result.push([d.Longitude, d.Latitude, colors[1], d.Language, d.SpeakersNo, "Critical"]);
-						break;
-						case "Severely endangered":
-						result.push([d.Longitude, d.Latitude, colors[2], d.Language, d.SpeakersNo, "Severe"]);
-						break;
-						case "Definitely endangered":
-						result.push([d.Longitude, d.Latitude, colors[3], d.Language, d.SpeakersNo, "Definitely"]);
-						break;
-						case "Vulnerable":
-						result.push([d.Longitude, d.Latitude, colors[4], d.Language, d.SpeakersNo, "Vulnerable"]);
-						break;
+					return{
+						Language: line["Name in English"], //name of the language
+						Latitude: Number(line["Latitude"]),
+						Longitude: Number(line["Longitude"]),
+						SpeakersNo: Number(line["Number of speakers"]),
+						Degree: line["Degree of endangerment"],
+						Country: line["Countries"],
 					}
+				};
+
+				d3.queue()
+				.defer(d3.json, "world-50m.json")
+				.defer(d3.csv, "data.csv", parseRow)
+				.await(function(error, worldMapData, rawLanguage, USMapData){
+					mapData = worldMapData;
+					countries = topojson.feature(mapData, mapData.objects.countries);
+					languageData=rawLanguage;
+					languagePoints = dataPoints(languageData);
+					countryData = countryCalculations(languageData);
+					showMap(languagePoints,countries,countryData);
 				});
 
-				return result;
-			}
+				var colors=["#FF0000", "#FF6600", "#FF9900", "#FFCC00",  "#FFFF00"];
 
-			//show World map of endangered or extinct languages
-			function showMap(languagePoints,countries) {
-				g.append("g")
-				.selectAll("path").data(countries.features)
-				.enter().append("path")
-				.attr("class","country")
-				.attr("d", pathGenerator)
-
-
-				blue.forEach(function(element) {
-					g.selectAll('path')
-					.filter(function(d) {
-						return d.id ===element
-					})
-					.style('fill', '#88CEF0')
-				});
-				red.forEach(function(element) {
-					g.selectAll('path')
-					.filter(function(d) {
-						return d.id ===element
-					})
-					.style('fill', '#DE4C4D')
-				});
-				yellow.forEach(function(element) {
-					g.selectAll('path')
-					.filter(function(d) {
-						return d.id ===element
-					})
-					.style('fill', '#F3E637')
-				});
-
-				darkblue.forEach(function(element) {
-					g.selectAll('path')
-					.filter(function(d) {
-						return d.id ===element
-					})
-					.style('fill', '#1CACE1')
-				});
-				pink.forEach(function(element) {
-					g.selectAll('path')
-					.filter(function(d) {
-						return d.id ===element
-					})
-					.style('fill', '#D93A97')
-				});
-				green.forEach(function(element) {
-					g.selectAll('path')
-					.filter(function(d) {
-						return d.id ===element
-					})
-					.style('fill', '#4AB950')
-				});
-				purple.forEach(function(element) {
-					g.selectAll('path')
-					.filter(function(d) {
-						return d.id ===element
-					})
-					.style('fill', '#836AAE')
-				});
-
-				// Define the div for the tooltip
-				var div = d3.select("body").append("div")
-				.attr("class", "tooltip")
-				.style("opacity", 0);
-
-				languagePoints.forEach(function (points) {
-					svgMap.append("circle")
-					.attr("cx", worldProjection(points)[0])
-					.attr("cy", worldProjection(points)[1])
-					.attr("r", 3)
-					.attr("class", points[5])
-					.style("opacity", 0.8)
-					.style("fill", points[2])
-					.on("mouseover", function(d) {
-						div.transition()
-						.duration(200)
-						.style("opacity", .9);
-						div.html( points[3]+ "<br/>"  + "Number of Speakers: " + points[4])
-						.style("left", (d3.event.pageX) + "px")
-						.style("top", (d3.event.pageY - 28) + "px");
-					})
-					.on("mouseout", function(d) {
-						div.transition()
-						.duration(500)
-						.style("opacity", 0);
-					});
-				});
-			}
-
-			var zoom = d3.behavior.zoom()
-			.scaleExtent([1,10])
-			.on("zoom", function () {
-				g.attr("transform", "translate(" + d3.event.translate.join(",") + ") scale(" + d3.event.scale + ")");
-				g.selectAll("path")
-				.attr("d", pathGenerator.projection(worldProjection));
-
-				svgMap.selectAll("circle")
-				.attr("transform", "translate(" + d3.event.translate.join(",") + ") scale(" + d3.event.scale + ")")
-				.transition()
-				.attr("r", 3 / d3.event.scale);
-			});
-			svgMap.call(zoom);
-
-			var safe_toggle = d3.select("#safe")
-			.on("click", function() {
-				var circle = d3.selectAll("circle");
-				if ($("#safe")[0].className == "un_sel") {
-					circle.style("opacity", 0);
-					$("#vuln").attr('class', 'un_sel');
-					$("#def").attr('class', 'un_sel');
-					$("#sev").attr('class', 'un_sel');
-					$("#crit").attr('class', 'un_sel');
-					$("#ext").attr('class', 'un_sel');
-				} else {
-					circle.style("opacity", 0.8);
-					$("#vuln").attr('class', 'sel');
-					$("#def").attr('class', 'sel');
-					$("#sev").attr('class', 'sel');
-					$("#crit").attr('class', 'sel');
-					$("#ext").attr('class', 'sel');
-				}
-				$("#safe").toggleClass('un_sel sel');
-			});
-
-			var vuln_toggle = d3.select("#vuln")
-			.on("click", function() {
-				var circle = d3.selectAll(".Vulnerable");
-				if ($("#vuln")[0].className == "sel") {
-					circle.style("opacity", 0);
-				} else {
-					circle.style("opacity", 0.8);
-				}
-				$("#vuln").toggleClass('un_sel sel');
-				$("#safe").attr('class', 'un_sel');
-			});
-
-			var def_toggle = d3.select("#def")
-			.on("click", function() {
-				var circle = d3.selectAll(".Definitely");
-				if ($("#def")[0].className == "sel") {
-					circle.style("opacity", 0);
-				} else {
-					circle.style("opacity", 0.8);
-				}
-				$("#def").toggleClass('un_sel sel');
-				$("#safe").attr('class', 'un_sel');
-			});
-
-			var sev_toggle = d3.select("#sev")
-			.on("click", function() {
-				var circle = d3.selectAll(".Severe");
-				if ($("#sev")[0].className == "sel") {
-					circle.style("opacity", 0);
-				} else {
-					circle.style("opacity", 0.8);
-				}
-				$("#sev").toggleClass('un_sel sel');
-				$("#safe").attr('class', 'un_sel');
-			});
-
-			var crit_toggle = d3.select("#crit")
-			.on("click", function() {
-				var circle = d3.selectAll(".Critical");
-				if ($("#crit")[0].className == "sel") {
-					circle.style("opacity", 0);
-				} else {
-					circle.style("opacity", 0.8);
-				}
-				$("#crit").toggleClass('un_sel sel');
-				$("#safe").attr('class', 'un_sel');
-			});
-
-			var ext_toggle = d3.select("#ext")
-			.on("click", function() {
-				var circle = d3.selectAll(".Extinct");
-				if ($("#ext")[0].className == "sel") {
-					circle.style("opacity", 0);
-				} else {
-					circle.style("opacity", 0.8);
-				}
-				$("#ext").toggleClass('un_sel sel');
-				$("#safe").attr('class', 'un_sel');
-			});
-
-			var eng_toggle = d3.select("#eng")
-			.on("click", function() {
-				if ($("#eng")[0].className == "sel") {
-					blue.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', 'white')
+				var dataPoints = function(data){
+					var result = [];
+					data.forEach(function(d){
+						switch(d.Degree){
+							case "Extinct":
+							result.push([d.Longitude, d.Latitude, colors[0], d.Language, d.SpeakersNo, "Extinct"]);
+							break;
+							case "Critically endangered":
+							result.push([d.Longitude, d.Latitude, colors[1], d.Language, d.SpeakersNo, "Critical"]);
+							break;
+							case "Severely endangered":
+							result.push([d.Longitude, d.Latitude, colors[2], d.Language, d.SpeakersNo, "Severe"]);
+							break;
+							case "Definitely endangered":
+							result.push([d.Longitude, d.Latitude, colors[3], d.Language, d.SpeakersNo, "Definitely"]);
+							break;
+							case "Vulnerable":
+							result.push([d.Longitude, d.Latitude, colors[4], d.Language, d.SpeakersNo, "Vulnerable"]);
+							break;
+						}
 					});
 
-					darkblue.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', 'white')
+					return result;
+				}
+				//Data of each country
+				var countryCalculations = function(data){
+					var result = {}
+					data.forEach(function(d){
+						var country = d.Country;
+						country = country.split(", ")
+						for(var i = 0; i < country.length; ++i){
+							if(!result[country[i]])
+								result[country[i]] = [];
+								result[country[i]].push(d.Language);
+						}
 					});
-				} else {
+					return result;
+				}
+
+				//show World map of endangered or extinct languages
+				function showMap(languagePoints,countries,countryData) {
+					g.append("g")
+					.selectAll("path").data(countries.features)
+					.enter().append("path")
+					.attr("class","country")
+					.attr("d", pathGenerator)
+					.on("click", function(d){
+						console.log(countries);
+					});
+
+
 					blue.forEach(function(element) {
 						g.selectAll('path')
 						.filter(function(d) {
 							return d.id ===element
 						})
 						.style('fill', '#88CEF0')
+					});
+					red.forEach(function(element) {
+						g.selectAll('path')
+						.filter(function(d) {
+							return d.id ===element
+						})
+						.style('fill', '#DE4C4D')
+					});
+					yellow.forEach(function(element) {
+						g.selectAll('path')
+						.filter(function(d) {
+							return d.id ===element
+						})
+						.style('fill', '#F3E637')
 					});
 
 					darkblue.forEach(function(element) {
@@ -398,43 +245,6 @@ crossorigin="anonymous"></script>
 						})
 						.style('fill', '#1CACE1')
 					});
-				}
-				$("#eng").toggleClass('un_sel sel');
-			});
-
-			var chi_toggle = d3.select("#chi")
-			.on("click", function() {
-				if ($("#chi")[0].className == "sel") {
-					yellow.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', 'white')
-					});
-				} else {
-					yellow.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', '#F3E637')
-					});
-				}
-				$("#chi").toggleClass('un_sel sel');
-			});
-
-			var spa_toggle = d3.select("#spa")
-			.on("click", function() {
-				if ($("#spa")[0].className == "sel") {
-					pink.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', 'white')
-					});
-				} else {
 					pink.forEach(function(element) {
 						g.selectAll('path')
 						.filter(function(d) {
@@ -442,21 +252,6 @@ crossorigin="anonymous"></script>
 						})
 						.style('fill', '#D93A97')
 					});
-				}
-				$("#spa").toggleClass('un_sel sel');
-			});
-
-			var ara_toggle = d3.select("#ara")
-			.on("click", function() {
-				if ($("#ara")[0].className == "sel") {
-					green.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', 'white')
-					});
-				} else {
 					green.forEach(function(element) {
 						g.selectAll('path')
 						.filter(function(d) {
@@ -464,21 +259,6 @@ crossorigin="anonymous"></script>
 						})
 						.style('fill', '#4AB950')
 					});
-				}
-				$("#ara").toggleClass('un_sel sel');
-			});
-
-			var fre_toggle = d3.select("#fre")
-			.on("click", function() {
-				if ($("#fre")[0].className == "sel") {
-					purple.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', 'white')
-					});
-				} else {
 					purple.forEach(function(element) {
 						g.selectAll('path')
 						.filter(function(d) {
@@ -486,35 +266,283 @@ crossorigin="anonymous"></script>
 						})
 						.style('fill', '#836AAE')
 					});
-				}
-				$("#fre").toggleClass('un_sel sel');
-			});
 
-			var rus_toggle = d3.select("#rus")
-			.on("click", function() {
-				if ($("#rus")[0].className == "sel") {
-					red.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
+					// Define the div for the tooltip
+					var div = d3.select("body").append("div")
+					.attr("class", "tooltip")
+					.style("opacity", 0);
+
+					languagePoints.forEach(function (points) {
+						svgMap.append("circle")
+						.attr("cx", worldProjection(points)[0])
+						.attr("cy", worldProjection(points)[1])
+						.attr("r", 3)
+						.attr("class", points[5])
+						.style("opacity", 0.8)
+						.style("fill", points[2])
+						.on("mouseover", function(d) {
+							div.transition()
+							.duration(200)
+							.style("opacity", .9);
+							div.html( points[3]+ "<br/>"  + "Number of Speakers: " + points[4])
+							.style("left", (d3.event.pageX) + "px")
+							.style("top", (d3.event.pageY - 28) + "px");
 						})
-						.style('fill', 'white')
-					});
-				} else {
-					red.forEach(function(element) {
-						g.selectAll('path')
-						.filter(function(d) {
-							return d.id ===element
-						})
-						.style('fill', '#DE4C4D')
+						.on("mouseout", function(d) {
+							div.transition()
+							.duration(500)
+							.style("opacity", 0);
+						});
 					});
 				}
-				$("#rus").toggleClass('un_sel sel');
-			});
 
-			</script>
+				// citation: http://bl.ocks.org/nivas8292/bec8b161587cb62e9fda
+				var zoom = d3.behavior.zoom()
+				.scaleExtent([1,10])
+				.on("zoom", function () {
+					g.attr("transform", "translate(" + d3.event.translate.join(",") + ") scale(" + d3.event.scale + ")");
+					g.selectAll("path")
+					.attr("d", pathGenerator.projection(worldProjection));
 
-		</div>
-	</body>
+					svgMap.selectAll("circle")
+					.attr("transform", "translate(" + d3.event.translate.join(",") + ") scale(" + d3.event.scale + ")")
+					.transition()
+					.attr("r", 3 / d3.event.scale);
+				});
+				svgMap.call(zoom);
 
-	</html>
+				var safe_toggle = d3.select("#safe")
+				.on("click", function() {
+					var circle = d3.selectAll("circle");
+					if ($("#safe")[0].className == "un_sel") {
+						circle.style("opacity", 0);
+						$("#vuln").attr('class', 'un_sel');
+						$("#def").attr('class', 'un_sel');
+						$("#sev").attr('class', 'un_sel');
+						$("#crit").attr('class', 'un_sel');
+						$("#ext").attr('class', 'un_sel');
+					} else {
+						circle.style("opacity", 0.8);
+						$("#vuln").attr('class', 'sel');
+						$("#def").attr('class', 'sel');
+						$("#sev").attr('class', 'sel');
+						$("#crit").attr('class', 'sel');
+						$("#ext").attr('class', 'sel');
+					}
+					$("#safe").toggleClass('un_sel sel');
+				});
+
+				var vuln_toggle = d3.select("#vuln")
+				.on("click", function() {
+					var circle = d3.selectAll(".Vulnerable");
+					if ($("#vuln")[0].className == "sel") {
+						circle.style("opacity", 0);
+					} else {
+						circle.style("opacity", 0.8);
+					}
+					$("#vuln").toggleClass('un_sel sel');
+					$("#safe").attr('class', 'un_sel');
+				});
+
+				var def_toggle = d3.select("#def")
+				.on("click", function() {
+					var circle = d3.selectAll(".Definitely");
+					if ($("#def")[0].className == "sel") {
+						circle.style("opacity", 0);
+					} else {
+						circle.style("opacity", 0.8);
+					}
+					$("#def").toggleClass('un_sel sel');
+					$("#safe").attr('class', 'un_sel');
+				});
+
+				var sev_toggle = d3.select("#sev")
+				.on("click", function() {
+					var circle = d3.selectAll(".Severe");
+					if ($("#sev")[0].className == "sel") {
+						circle.style("opacity", 0);
+					} else {
+						circle.style("opacity", 0.8);
+					}
+					$("#sev").toggleClass('un_sel sel');
+					$("#safe").attr('class', 'un_sel');
+				});
+
+				var crit_toggle = d3.select("#crit")
+				.on("click", function() {
+					var circle = d3.selectAll(".Critical");
+					if ($("#crit")[0].className == "sel") {
+						circle.style("opacity", 0);
+					} else {
+						circle.style("opacity", 0.8);
+					}
+					$("#crit").toggleClass('un_sel sel');
+					$("#safe").attr('class', 'un_sel');
+				});
+
+				var ext_toggle = d3.select("#ext")
+				.on("click", function() {
+					var circle = d3.selectAll(".Extinct");
+					if ($("#ext")[0].className == "sel") {
+						circle.style("opacity", 0);
+					} else {
+						circle.style("opacity", 0.8);
+					}
+					$("#ext").toggleClass('un_sel sel');
+					$("#safe").attr('class', 'un_sel');
+				});
+
+				var eng_toggle = d3.select("#eng")
+				.on("click", function() {
+					if ($("#eng")[0].className == "sel") {
+						blue.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', 'white')
+						});
+
+						darkblue.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', 'white')
+						});
+					} else {
+						blue.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', '#88CEF0')
+						});
+
+						darkblue.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', '#1CACE1')
+						});
+					}
+					$("#eng").toggleClass('un_sel sel');
+				});
+
+				var chi_toggle = d3.select("#chi")
+				.on("click", function() {
+					if ($("#chi")[0].className == "sel") {
+						yellow.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', 'white')
+						});
+					} else {
+						yellow.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', '#F3E637')
+						});
+					}
+					$("#chi").toggleClass('un_sel sel');
+				});
+
+				var spa_toggle = d3.select("#spa")
+				.on("click", function() {
+					if ($("#spa")[0].className == "sel") {
+						pink.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', 'white')
+						});
+					} else {
+						pink.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', '#D93A97')
+						});
+					}
+					$("#spa").toggleClass('un_sel sel');
+				});
+
+				var ara_toggle = d3.select("#ara")
+				.on("click", function() {
+					if ($("#ara")[0].className == "sel") {
+						green.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', 'white')
+						});
+					} else {
+						green.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', '#4AB950')
+						});
+					}
+					$("#ara").toggleClass('un_sel sel');
+				});
+
+				var fre_toggle = d3.select("#fre")
+				.on("click", function() {
+					if ($("#fre")[0].className == "sel") {
+						purple.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', 'white')
+						});
+					} else {
+						purple.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', '#836AAE')
+						});
+					}
+					$("#fre").toggleClass('un_sel sel');
+				});
+
+				var rus_toggle = d3.select("#rus")
+				.on("click", function() {
+					if ($("#rus")[0].className == "sel") {
+						red.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', 'white')
+						});
+					} else {
+						red.forEach(function(element) {
+							g.selectAll('path')
+							.filter(function(d) {
+								return d.id ===element
+							})
+							.style('fill', '#DE4C4D')
+						});
+					}
+					$("#rus").toggleClass('un_sel sel');
+				});
+
+				</script>
+
+			</div>
+		</body>
+
+		</html>
